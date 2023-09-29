@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2">
+
+    <title>Gerador de Código de Barras EAN-13</title>
+    <style>
+
+body {
+      font-family: Arial, sans-serif;
+    }
+
+    .skeleton-wrapper {
+      width: 300px;
+      margin: 50px auto;
+      text-align: center;
+    }
+
+    .skeleton-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin: 0 auto;
+      animation: skeleton-loading 1s infinite ease-in-out;
+    }
+
+    .skeleton-nome {
+      margin-top: 42.9px;
+      background-color: #ccc;
+      height: 40px;
+      width: 18% auto;
+      border-radius: 50px;
+      animation: skeleton-loading 1s infinite ease-in-out;
+    }
+
+    .skeleton-text {
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #ccc;
+        height: 20px;
+        width: 40%;
+        border-radius: 50px;
+        animation: skeleton-loading 1s infinite ease-in-out;
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 0.2;
+      }
+      100% {
+        opacity: 0.7;
+      }
+    }
+
+    .profile {
+      text-align: center;
+      margin: 50px auto;
+    }
+
+    .profile img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      text-align: center;
+    }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(90, 144, 245, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            border: 3px solid #dee2e7;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1a8d29;
+        }
+        #barcode {
+            margin-top: 20px;
+        }
+        .skeleton {
+            animation: loading 1s infinite;
+            background: linear-gradient(90deg, #f0f0f0 25%, #000000 50%, #f0f0f0 75%);
+            background-size: 250% 80%;
+            border-radius: 5px;
+            display: inline-block;
+            width: 64%;
+            height: 81px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        .texto-cor {
+    color: #646669;
+    font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="skeleton-wrapper">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-nome"></div>
+            <div class="skeleton-text"></div>
+          </div>
+        
+          <div class="profile" style="display: none;">
+            <img src="http://10.172.68.76/img/ncode.jpg" alt="Foto de Perfil">
+            <div class="info">
+              <h3 class="name"></h2>
+              <p class="dev texto-cor"></p>
+            </div>
+          </div>
+
+        <input type="text" id="username" placeholder="Nome de Usuário">
+        <input type="text" id="gmcore" placeholder="Usuário Gmcore (6 dígitos)">
+        <button onclick="generateBarcode()">Gerar Código de Barras</button>
+        <div id="barcode" class="skeleton1"></div>
+    </div>
+
+    <script>
+            // Simulando o carregamento de informações
+    setTimeout(function() {
+      const skeletonWrapper = document.querySelector('.skeleton-wrapper');
+      const profileDiv = document.querySelector('.profile');
+
+      skeletonWrapper.style.display = 'none';
+      profileDiv.style.display = 'block';
+
+      // Preenchendo as informações
+      const name = 'Gerador de Código de Barras EAN-13';
+      const dev = 'By: Nilsonlinux';
+
+      document.querySelector('.name').textContent = name;
+      document.querySelector('.dev').textContent = dev;
+    }, 2000); // Tempo simulado para a animação do skeleton-screen
+
+
+    
+        function generateBarcode() {
+            const username = document.getElementById("username").value;
+            const gmcore = document.getElementById("gmcore").value;
+
+            // Verifique se o código é válido (6 dígitos)
+            if (gmcore.length !== 6 || !/^\d+$/.test(gmcore)) {
+                alert("Por favor, forneça um código Gmcore (6 dígitos). Caso o usuário possuir 4 ou 5 dígitos, complete com Zeros (0) no inicio do código. Exemplo: 001234, 012345");
+                return;
+            }
+
+            
+
+        // Atualize o esqueleto de carregamento
+        const barcodeElement = document.getElementById("barcode");
+        barcodeElement.classList.add("skeleton");
+
+        // Faça a solicitação à API para gerar o código de barras
+        fetch(`https://bwipjs-api.metafloor.com/?bcid=ean13&scaleX=2&scaleY=1&text=000000${gmcore}&parsefnc&alttext=${username} ${gmcore}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro na solicitação à API: ${response.statusText}`);
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Crie uma URL para a imagem
+                const imageUrl = URL.createObjectURL(blob);
+
+                // Exiba a imagem do código de barras
+                barcodeElement.innerHTML = `<img src="${imageUrl}" alt="Código de Barras EAN-13">`;
+                barcodeElement.classList.remove("skeleton"); // Remova o efeito de carregamento
+                
+            })
+            .catch(error => {
+                alert(`Erro ao gerar o código de barras: ${error.message}`);
+                barcodeElement.classList.remove("skeleton"); // Remova o efeito de carregamento em caso de erro
+                barcodeElement.innerHTML = ""; // Remova qualquer imagem anterior
+            });
+    }
+    </script>
+</body>
+</html>
