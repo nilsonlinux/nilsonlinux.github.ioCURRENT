@@ -18,57 +18,62 @@ body {
     }
 
     .skeleton-circle {
+      animation: loading 1s infinite;
+      background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+      background-size: 250% 80%;
+      border-radius: 50%;
+      display: inline-block;
       width: 100px;
       height: 100px;
-      border-radius: 50%;
-      background-color: #ccc;
-      margin: 0 auto;
-      animation: skeleton-loading 1s infinite ease-in-out;
+      margin: 0 auto;   
     }
 
     .skeleton-nome {
-        margin-top: 45px;
+        margin-top: 41px;
         margin-left: auto;
         margin-right: auto;
-        background-color: #ccc;
+        background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+        background-size: 250% 80%;
         height: 20px;
         width: 85%;
         border-radius: 10px;
-        animation: skeleton-loading 1s infinite ease-in-out;
+        animation: loading 1s infinite;
     }
 
         .skeleton-nome2 {
         margin-top: 2px;
         margin-left: auto;
         margin-right: auto;
-        background-color: #ccc;
+        background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+        background-size: 250% 80%;
         height: 20px;
         width: 22%;
         border-radius: 2px;
-        animation: skeleton-loading 1s infinite ease-in-out;
+        animation: loading 1s infinite;
     }
 
     .skeleton-text {
         margin-top: 22px;
         margin-left: auto;
         margin-right: auto;
-        background-color: #ccc;
+        background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+        background-size: 250% 80%;
         height: 16px;
-        width: 35%;
+        width: 42%;
         border-radius: 100px;
-        animation: skeleton-loading 1s infinite ease-in-out;
+        animation: loading 1s infinite;
     }
 
-    .rounded-box {
+    .nilsonlinux {
       margin-top: 20px;
         margin-left: auto;
         margin-right: auto;
-        background-color: #6d6c6c;
+        background-color: #4b4848;
         color: #ffffff;
         font-weight: bold;
-        border: 1px solid #dbdada;
+        border: 1px solid #ffffff;
         height: 16px;
-        width: 35%;
+        width: 42%;
         border-radius: 100px;
         }
 
@@ -121,19 +126,20 @@ body {
             width: 60%;
             padding: 10px;
             margin-bottom: 10px;
-            border-radius: 20px;
+            border-radius: 25px;
             border: 3px solid #dee2e7;
         }
         button {
-            background-color: #007bff;
-            color: #fff;
+            background-color: #f84343;
+            color: #fcfcfc;
             border: none;
             border-radius: 20px;
             padding: 10px 10px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #1a8d29;
+            background-color: #ff0040;
+            
         }
         #barcode {
             margin-top: 20px;
@@ -156,6 +162,24 @@ body {
                 background-position: -200% 0;
             }
         }
+
+        .center-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Espaço de margem superior para afastar o botão do código de barras */
+}
+
+         button2 {
+            background-color: #2e2d2a;
+            color: #fafafa;
+            border: none;
+            border-radius: 7px;
+            padding: 8px 8px;
+            cursor: pointer;
+        }
+        button2:hover {
+            background-color: #fc4e0a;
+        }
     </style>
 </head>
 <body>
@@ -171,7 +195,7 @@ body {
             <img src="https://raw.githubusercontent.com/nilsonlinux/nilsonlinux.github.io/main/assets/img/ncode.gif" alt="Foto de Perfil">
             <div class="info">
               <h3 class="name"></h2>
-              <p class="rounded-box dev"></p>
+              <p class="nilsonlinux dev"></p>
             </div>
           </div>
 
@@ -179,8 +203,9 @@ body {
         <input type="text" id="gmcore" placeholder="Usuário Gmcore (6 dígitos)">
         <button onclick="generateBarcode()">Gerar Código de Barras</button>
         <div id="barcode" class="skeleton1"></div>
-    </div>
-
+        <div class="center-button">
+          <button2 id="printButton" style="display: none;" onclick="printBarcode()">Imprimir</button2>
+      </div>
     <script>
             // Simulando o carregamento de informações
     setTimeout(function() {
@@ -192,11 +217,12 @@ body {
 
       // Preenchendo as informações
       const name = 'Gerador de Código de Barras EAN-13';
-      const dev = 'Nilsonlinux';
+      const dev = '</>Nilsonlinux';
 
       document.querySelector('.name').textContent = name;
       document.querySelector('.dev').textContent = dev;
     }, 2000); // Tempo simulado para a animação do skeleton-screen
+
 
 
     
@@ -225,20 +251,49 @@ body {
                 return response.blob();
             })
             .then(blob => {
-                // Crie uma URL para a imagem
-                const imageUrl = URL.createObjectURL(blob);
+    // Crie uma URL para a imagem
+    const imageUrl = URL.createObjectURL(blob);
 
-                // Exiba a imagem do código de barras
-                barcodeElement.innerHTML = `<img src="${imageUrl}" alt="Código de Barras EAN-13">`;
-                barcodeElement.classList.remove("skeleton"); // Remova o efeito de carregamento
-                
-            })
+    // Exiba a imagem do código de barras
+    barcodeElement.innerHTML = `<img src="${imageUrl}" alt="Código de Barras EAN-13">`;
+    barcodeElement.classList.remove("skeleton"); // Remova o efeito de carregamento
+
+    // Mostre o botão de impressão
+    const printButton = document.getElementById("printButton");
+    printButton.style.display = "block";
+})
             .catch(error => {
                 alert(`Erro ao gerar o código de barras: ${error.message}`);
                 barcodeElement.classList.remove("skeleton"); // Remova o efeito de carregamento em caso de erro
                 barcodeElement.innerHTML = ""; // Remova qualquer imagem anterior
             });
     }
+
+    function printBarcode() {
+    const barcodeImage = document.querySelector("#barcode img");
+
+    if (barcodeImage) {
+        const win = window.open('Ncode', '_blank');
+        win.document.open();
+        win.document.write(`<html>
+        <head><title>Ncode - Gerador de código de barras - EAN13</title></head>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 50px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 50px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 50px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 50px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><p style="font-size: 13px;">Desenvolvido por: Nilsonlinux</p></center>
+        </body></html>`);
+        win.document.close();
+        win.print();
+        win.close();
+    } else {
+        alert("O código de barras ainda não foi gerado.");
+    }
+}
     </script>
 </body>
 </html>
