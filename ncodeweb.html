@@ -27,24 +27,50 @@ body {
     }
 
     .skeleton-nome {
-      margin-top: 42.9px;
-      background-color: #ccc;
-      height: 40px;
-      width: 18% auto;
-      border-radius: 50px;
-      animation: skeleton-loading 1s infinite ease-in-out;
-    }
-
-    .skeleton-text {
-        margin-top: 20px;
+        margin-top: 45px;
         margin-left: auto;
         margin-right: auto;
         background-color: #ccc;
         height: 20px;
-        width: 40%;
-        border-radius: 50px;
+        width: 85%;
+        border-radius: 10px;
         animation: skeleton-loading 1s infinite ease-in-out;
     }
+
+        .skeleton-nome2 {
+        margin-top: 2px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #ccc;
+        height: 20px;
+        width: 22%;
+        border-radius: 2px;
+        animation: skeleton-loading 1s infinite ease-in-out;
+    }
+
+    .skeleton-text {
+        margin-top: 22px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #ccc;
+        height: 16px;
+        width: 35%;
+        border-radius: 100px;
+        animation: skeleton-loading 1s infinite ease-in-out;
+    }
+
+    .rounded-box {
+      margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #6d6c6c;
+        color: #ffffff;
+        font-weight: bold;
+        border: 1px solid #dbdada;
+        height: 16px;
+        width: 35%;
+        border-radius: 100px;
+        }
 
     @keyframes skeleton-loading {
       0% {
@@ -130,10 +156,6 @@ body {
                 background-position: -200% 0;
             }
         }
-        .texto-cor {
-    color: #646669;
-    font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -141,14 +163,15 @@ body {
         <div class="skeleton-wrapper">
             <div class="skeleton-circle"></div>
             <div class="skeleton-nome"></div>
+            <div class="skeleton-nome2"></div>
             <div class="skeleton-text"></div>
           </div>
         
           <div class="profile" style="display: none;">
-            <img src="https://raw.githubusercontent.com/nilsonlinux/nilsonlinux.github.io/main/assets/img/ncode.jpg" alt="Foto de Perfil">
+            <img src="https://barcodeean13.nilsonlinux.repl.co/img/ncode.png" alt="Foto de Perfil">
             <div class="info">
               <h3 class="name"></h2>
-              <p class="dev texto-cor"></p>
+              <p class="rounded-box dev"></p>
             </div>
           </div>
 
@@ -169,7 +192,7 @@ body {
 
       // Preenchendo as informações
       const name = 'Gerador de Código de Barras EAN-13';
-      const dev = 'By: Nilsonlinux';
+      const dev = 'Nilsonlinux';
 
       document.querySelector('.name').textContent = name;
       document.querySelector('.dev').textContent = dev;
