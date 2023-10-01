@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2">
+
+    <title>Gerador de Código de Barras EAN-13</title>
+    <style>
+
+body {
+      font-family: Arial, sans-serif;
+    }
+
+    .skeleton-wrapper {
+      width: 300px;
+      margin: 50px auto;
+      text-align: center;
+    }
+
+    .skeleton-circle {
+      animation: loading 1s infinite;
+      background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+      background-size: 250% 80%;
+      border-radius: 50%;
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;   
+    }
+
+    .skeleton-nome {
+        margin-top: 41px;
+        margin-left: auto;
+        margin-right: auto;
+        background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+        background-size: 250% 80%;
+        height: 20px;
+        width: 85%;
+        border-radius: 10px;
+        animation: loading 1s infinite;
+    }
+
+        .skeleton-nome2 {
+        margin-top: 2px;
+        margin-left: auto;
+        margin-right: auto;
+        background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+        background-size: 250% 80%;
+        height: 20px;
+        width: 22%;
+        border-radius: 2px;
+        animation: loading 1s infinite;
+    }
+
+    .skeleton-text {
+        margin-top: 22px;
+        margin-left: auto;
+        margin-right: auto;
+        background: linear-gradient(90deg, #f0f0f0 25%, #a8a8a8 50%, #f0f0f0 75%);
+        background-size: 250% 80%;
+        height: 16px;
+        width: 42%;
+        border-radius: 100px;
+        animation: loading 1s infinite;
+    }
+
+    .nilsonlinux {
+      margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #4b4848;
+        color: #ffffff;
+        font-weight: bold;
+        border: 1px solid #ffffff;
+        height: 16px;
+        width: 42%;
+        border-radius: 100px;
+        }
+
+    @keyframes skeleton-loading {
+      0% {
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 0.2;
+      }
+      100% {
+        opacity: 0.7;
+      }
+    }
+
+    .profile {
+      text-align: center;
+      margin: 50px auto;
+    }
+
+    .profile img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      text-align: center;
+    }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(90, 144, 245, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 25px;
+            border: 3px solid #dee2e7;
+        }
+        button {
+            background-color: #f84343;
+            color: #fcfcfc;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff0040;
+            
+        }
+        #barcode {
+            margin-top: 20px;
+        }
+        .skeleton {
+            animation: loading 1s infinite;
+            background: linear-gradient(90deg, #1efd00 25%, #000000 50%, #ff0303 75%, #bbff00 75%);
+            background-size: 200% 200%;
+            border-radius: 5px;
+            display: inline-block;
+            width: 180px;
+            height: 180px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .center-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Espaço de margem superior para afastar o botão do código de barras */
+}
+
+         button2 {
+            background-color: #2e2d2a;
+            color: #fafafa;
+            border: none;
+            border-radius: 7px;
+            padding: 8px 8px;
+            cursor: pointer;
+        }
+        button2:hover {
+            background-color: #fc4e0a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="skeleton-wrapper">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-nome"></div>
+            <div class="skeleton-text"></div>
+          </div>
+        
+          <div class="profile" style="display: none;">
+            <img src="http://10.172.68.76/img/ncode.gif" alt="Ncode">
+            <div class="info">
+              <h3 class="name"></h2>
+              <p class="nilsonlinux dev"></p>
+            </div>
+          </div>
+          <input type="text" id="dados" placeholder="Cole o link ou informação que deseja.">
+          <button onclick="validateAndGenerateBarcode()">Gerar Código de Barras</button>
+          <div id="barcode" class="none"></div>
+          <div class="center-button">
+              <button2 id="printButton" style="display: none;" onclick="printBarcode()">Imprimir</button2>
+          </div>
+    <script>
+
+function validateAndGenerateBarcode() {
+            const dados = document.getElementById("dados").value;
+
+            // Verificar se o valor inserido é um link válido
+            if (isLink(dados)) {
+                generateBarcode();
+            } else {
+                alert("Insira um link válido antes de gerar o código de barras.");
+            }
+        }
+
+        function isLink(str) {
+            // Padrão de expressão regular para verificar se a string parece ser uma URL
+            var urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+            
+            // Testar a string em relação ao padrão
+            return urlPattern.test(str);
+        }
+            // Simulando o carregamento de informações
+    setTimeout(function() {
+      const skeletonWrapper = document.querySelector('.skeleton-wrapper');
+      const profileDiv = document.querySelector('.profile');
+
+      skeletonWrapper.style.display = 'none';
+      profileDiv.style.display = 'block';
+
+      // Preenchendo as informações
+      const name = 'Gerador de Código QRCode';
+      const dev = '</>Nilsonlinux';
+
+      document.querySelector('.name').textContent = name;
+      document.querySelector('.dev').textContent = dev;
+    }, 2000); // Tempo simulado para a animação do skeleton-screen
+
+
+
+    
+        function generateBarcode() {
+            const dados = document.getElementById("dados").value;
+
+            function validateAndGenerateBarcode() {
+            const dados = document.getElementById("dados").value;
+
+            // Verificar se o valor inserido é um link válido
+            if (isLink(dados)) {
+                generateBarcode();
+            } else {
+                alert("Insira um link válido antes de gerar o código de barras.");
+            }
+        }
+
+        function isLink(str) {
+            // Padrão de expressão regular para verificar se a string parece ser uma URL
+            var urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+            
+            // Testar a string em relação ao padrão
+            return urlPattern.test(str);
+        }
+            
+
+        // Atualize o esqueleto de carregamento
+        const barcodeElement = document.getElementById("barcode");
+        barcodeElement.classList.add("skeleton");
+
+        // Faça a solicitação à API para gerar o código de barras
+        fetch(`https://bwipjs-api.metafloor.com/?bcid=qrcode&scaleX=3&scaleY=3&text=${dados}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro na solicitação à API: ${response.statusText}`);
+                }
+                return response.blob();
+            })
+            .then(blob => {
+    // Crie uma URL para a imagem
+    const imageUrl = URL.createObjectURL(blob);
+
+    // Exiba a imagem do código de barras
+    barcodeElement.innerHTML = `<img src="${imageUrl}" alt="Código de QRCode">`;
+    barcodeElement.classList.remove("skeleton"); // Remova o efeito de carregamento
+
+    // Mostre o botão de impressão
+    const printButton = document.getElementById("printButton");
+    printButton.style.display = "block";
+})
+            .catch(error => {
+                alert(`Erro ao gerar o código de barras: ${error.message}`);
+                barcodeElement.classList.remove("skeleton"); // Remova o efeito de carregamento em caso de erro
+                barcodeElement.innerHTML = ""; // Remova qualquer imagem anterior
+            });
+    }
+
+    function printBarcode() {
+    const barcodeImage = document.querySelector("#barcode img");
+
+    if (barcodeImage) {
+        const win = window.open('Ncode', '_blank');
+        win.document.open();
+        win.document.write(`<html>
+        <head><title>Ncode - Gerador de código de barras - EAN13</title></head>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 150px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 150px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 150px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><img src="${barcodeImage.src}" alt="Código de Barras EAN-13" style="width: 100px; height: 150px;"></center>
+        <center><text>- - - - - - - - - - - - - - - -</text></center>
+        <center><p style="font-size: 13px;">Desenvolvido por: Nilsonlinux</p></center>
+        </body></html>`);
+        win.document.close();
+        win.print();
+        win.close();
+    } else {
+        alert("O código de barras ainda não foi gerado.");
+    }
+}
+    </script>
+</body>
+</html>
