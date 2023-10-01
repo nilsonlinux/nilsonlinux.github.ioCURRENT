@@ -198,7 +198,7 @@ body {
             </div>
           </div>
           <input type="text" id="dados" placeholder="Cole o link aqui.">
-          <button onclick="validateAndGenerateBarcode()">Gerar Código de Barras</button>
+          <button onclick="validateAndGenerateBarcode()">Gerar QRCode</button>
           <div id="barcode" class="none"></div>
           <div class="center-button">
               <button2 id="printButton" style="display: none;" onclick="printBarcode()">Imprimir</button2>
@@ -212,7 +212,7 @@ function validateAndGenerateBarcode() {
             if (isLink(dados)) {
                 generateBarcode();
             } else {
-                alert("Insira um link válido antes de gerar o código de barras.");
+                alert("Insira um link válido antes de gerar o QRCode.");
             }
         }
 
@@ -252,7 +252,7 @@ function validateAndGenerateBarcode() {
             if (isLink(dados)) {
                 generateBarcode();
             } else {
-                alert("Insira um link válido antes de gerar o código QRCode.");
+                alert("Insira um link válido antes de gerar QRCode.");
             }
         }
 
