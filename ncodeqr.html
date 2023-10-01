@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=2">
 
-    <title>Gerador de Código de Barras EAN-13</title>
+    <title>Gerador de Código QRCode</title>
     <style>
 
 body {
@@ -197,7 +197,7 @@ body {
               <p class="nilsonlinux dev"></p>
             </div>
           </div>
-          <input type="text" id="dados" placeholder="Cole o link ou informação que deseja.">
+          <input type="text" id="dados" placeholder="Cole o link aqui.">
           <button onclick="validateAndGenerateBarcode()">Gerar Código de Barras</button>
           <div id="barcode" class="none"></div>
           <div class="center-button">
@@ -252,7 +252,7 @@ function validateAndGenerateBarcode() {
             if (isLink(dados)) {
                 generateBarcode();
             } else {
-                alert("Insira um link válido antes de gerar o código de barras.");
+                alert("Insira um link válido antes de gerar o código QRCode.");
             }
         }
 
