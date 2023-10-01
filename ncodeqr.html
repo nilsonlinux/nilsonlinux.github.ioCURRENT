@@ -150,8 +150,8 @@ body {
             background-size: 200% 200%;
             border-radius: 5px;
             display: inline-block;
-            width: 180px;
-            height: 180px;
+            width: 140px;
+            height: 140px;
         }
 
         @keyframes loading {
@@ -270,7 +270,7 @@ function validateAndGenerateBarcode() {
         barcodeElement.classList.add("skeleton");
 
         // Faça a solicitação à API para gerar o código de barras
-        fetch(`https://bwipjs-api.metafloor.com/?bcid=qrcode&scaleX=3&scaleY=3&text=${dados}`)
+        fetch(`https://bwipjs-api.metafloor.com/?bcid=qrcode&scaleX=2&scaleY=2&text=${dados}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na solicitação à API: ${response.statusText}`);
